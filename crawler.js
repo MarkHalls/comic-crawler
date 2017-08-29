@@ -1,46 +1,49 @@
 const axios = require("axios");
 const { JSDOM } = require("jsdom");
 const { URL } = require("url");
+const fs = require("fs");
 
-const pageToVisit = "http://www.schlockmercenary.com";
-const nextPageSelector = "";
-const cssQuery = ".strip-image-wrapper";
-const nextPage = "";
-
-console.log("visiting page: " + pageToVisit);
+const createDownloadDir = pageToVisit => {
+  const hostname = new URL(pageToVisit).hostname;
+  fs.mkdir("./" + hostname, err => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log("Created directory ./" + hostname);
+    }
+  });
+  return hostname;
+};
 
 const getPage = pageToVisit => {
-  let imgSrc = "";
-  axios
+  return axios
     .get(pageToVisit)
     .then(response => {
-      console.log("Status Code: " + response.status);
       if (response.status === 200) {
-        const data = response.data;
-        const dom = new JSDOM(data);
-        imgSrc = dom.window.document
-          .querySelector(cssQuery)
-          .querySelector("img").src;
-        console.log(imgSrc);
+        return response;
+      } else {
+        console.log("Status Code: " + response.status);
       }
     })
     .catch(error => console.error(error));
-  console.log("test" + imgSrc);
-  return imgSrc;
 };
 
-const getImage = relativeURL => {
-  const srcFileName = new URL(relativeURL, pageToVisit).pathname
-    .split("/")
-    .pop();
-  console.log(relativeURL);
+const parsePage = axiosResponse => {
+  const data = axiosResponse.data;
+  const dom = new JSDOM(data);
+  return dom.window.document.querySelector(cssQuery).querySelector("img").src;
+};
+
+const getImage = (absUrl, saveToDir) => {
+  const parsedUrl = new URL(absUrl);
+  const srcFileName = parsedUrl.pathname.split("/").pop();
   axios({
     method: "get",
-    url: relativeURL,
+    url: parsedUrl.href,
     responseType: "stream"
   })
     .then(response => {
-      response.data.pipe(fs.createWriteStream(srcFileName));
+      response.data.pipe(fs.createWriteStream(saveToDir + "/" + srcFileName));
     })
     .catch(err => console.error(err));
 };
@@ -66,5 +69,3 @@ const collectInternalLinks = $ => {
   console.log("Found " + allRelativeLinks.length + " relative links");
   console.log("Found " + allAbsoluteLinks.length + " absolute links");
 };
-
-getPage(pageToVisit);
