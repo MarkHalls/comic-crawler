@@ -5,11 +5,21 @@ const nextPage = "";
 
 console.log("visiting page: " + pageToVisit);
 
-const saveTo = createDownloadDir(pageToVisit);
+addImportLink(pageToVisit);
+// removeImportLink(pageToVisit);
+// axios({
+//   method: "get",
+//   url: parsedUrl.href,
+//   responseType: "stream"
+// })
+//   .then(response => {
+//     response.data.pipe(fs.createWriteStream(saveToDir + "/" + srcFileName));
+//   })
+//   .catch(err => console.error(err));
 
-Promise.resolve(getPage(pageToVisit))
-  .then(data => parsePage(data))
-  .then(img => getImage(img));
+// Promise.resolve(getPage(pageToVisit))
+//   .then(data => parsePage(data))
+//   .then(img => getImage(img));
 
 // 	if (document.addEventListener){
 //     document.addEventListener("click", function(event){

@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "Comic Crawler",
+  "version": "1",
+
+  "default_locale": "en",
+  "description": "A simple webcomic downloader.",
+  "icons": {
+    "16": "pssf.png"
+  },
+
+  "browser_action": {},
+  "app": {
+    "background": {
+      "scripts": ["index.js"]
+    }
+  },
+
+  "author": "Mark Halls",
+  "background": {
+    "persistent": false
+  },
+  "homepage_url": "http://path/to/homepage",
+  "incognito": "split",
+  "permissions": ["tabs", "downloads"]
+}
