@@ -30,3 +30,7 @@ const addImportLink = (url, cssQuery) => {
 const setNextPage = absoluteUrl => {
   nextPage = absoluteUrl;
 };
+
+const sleep = ms => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+};
