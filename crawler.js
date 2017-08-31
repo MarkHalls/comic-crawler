@@ -11,11 +11,16 @@ const addImportLink = (url, cssSelector) => {
     const imgSrc = event.target.import
       .querySelector(cssSelector)
       .querySelector("img").src;
+    const srcFileName = new URL(imgSrc).pathname.split("/").pop();
+    console.log(srcFileName);
     const next = event.target.import.querySelector(".next-strip");
+    const myfilename = domain.hostname + "/" + srcFileName;
+    console.log(myfilename);
     console.log("imgSrc: " + imgSrc);
     chrome.downloads.download({
-      url: new URL(imgSrc, domain),
-      filename: domain + "/" + srcFileName
+      url: new URL(imgSrc, domain).href,
+      filename: myfilename
+      // filename: domain + "/" + srcFileName
     });
     event.target.remove();
     console.log("removed link");

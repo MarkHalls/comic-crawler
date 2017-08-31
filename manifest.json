@@ -15,12 +15,14 @@
     "default_popup": "index.html",
     "default_title": "Comic Crawler"
   },
-  "app": {
-    "background": {
-      "scripts": ["index.js"]
-    }
-  },
 
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["index.js", "crawler.js"]
+    }
+  ],
+  "content_security_policy": "script-src https://www.schlockmercenary.com 'self'; object-src 'self'",
   "author": "Mark Halls",
   "incognito": "split",
   "permissions": ["tabs", "downloads"]
