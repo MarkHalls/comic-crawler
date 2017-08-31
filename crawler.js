@@ -4,7 +4,6 @@ const addImportLink = (url, cssSelector) => {
   link.href = url;
   link.addEventListener("onerror", error => {
     console.error(error);
-    setNextPage("");
   });
   link.addEventListener("load", event => {
     const domain = new URL(url);
@@ -15,15 +14,11 @@ const addImportLink = (url, cssSelector) => {
     console.log(srcFileName);
     const next = event.target.import.querySelector(".next-strip");
     const myfilename = domain.hostname + "/" + srcFileName;
-    console.log(myfilename);
-    console.log("imgSrc: " + imgSrc);
     chrome.downloads.download({
       url: new URL(imgSrc, domain).href,
       filename: myfilename
-      // filename: domain + "/" + srcFileName
     });
     event.target.remove();
-    console.log("removed link");
     addImportLink(next, cssSelector);
   });
   console.log("linking: " + url);
