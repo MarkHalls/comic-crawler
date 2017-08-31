@@ -1,11 +1,11 @@
-const pageToVisit = "http://www.schlockmercenary.com";
-const nextPageSelector = "";
-const cssQuery = ".strip-image-wrapper";
-const nextPage = "";
-
-console.log("visiting page: " + pageToVisit);
-
-addImportLink(pageToVisit);
+let nextPage = "https://www.schlockmercenary.com/2017-08-29";
+let nextPageSelector = "";
+let cssQuery = ".strip-image-wrapper";
+// do {
+console.log("nextPage: " + nextPage);
+let x = addImportLink(nextPage, cssQuery);
+console.log(x);
+// } while (nextPage);
 // removeImportLink(pageToVisit);
 // axios({
 //   method: "get",
