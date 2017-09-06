@@ -1,8 +1,9 @@
+"use strict";
 const addImportLink = (url, cssSelector) => {
   const link = document.createElement("link");
   link.rel = "import";
   link.href = url;
-  link.addEventListener("onerror", error => {
+  link.addEventListener("error", error => {
     console.error(error);
   });
   link.addEventListener("load", event => {
@@ -12,13 +13,15 @@ const addImportLink = (url, cssSelector) => {
       .querySelector("img").src;
     const srcFileName = new URL(imgSrc).pathname.split("/").pop();
     console.log(srcFileName);
-    const next = event.target.import.querySelector(".next-strip");
+    const next = event.target.import.querySelector(cssSelector);
     const myfilename = domain.hostname + "/" + srcFileName;
     chrome.downloads.download({
       url: new URL(imgSrc, domain).href,
       filename: myfilename
     });
     event.target.remove();
+    link.removeEventListener("load", event);
+    link.removeEventListener("error", event);
     addImportLink(next, cssSelector);
   });
   console.log("linking: " + url);
