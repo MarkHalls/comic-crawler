@@ -1,4 +1,16 @@
-"use strict";
+/* <webview src="http://news.google.com/" width="640" height="480"></webview> */
+
+const addWebView = (url, cssSelector) => {
+  const webview = document.createElement("webview");
+  webview.src = "http://schlockmercenary.com";
+  webview.width = "640";
+  webview.height = "480";
+  webview.addEventListener("load", event => {
+    console.log("loaded");
+  });
+  document.head.insertBefore(webview, null);
+}
+
 const addImportLink = (url, cssSelector) => {
   const link = document.createElement("link");
   link.rel = "import";
